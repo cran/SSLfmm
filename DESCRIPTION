@@ -1,31 +1,37 @@
 Package: SSLfmm
 Type: Package
-Title: Semi-Supervised Learning under a Mixed-Missingness Mechanism in
-        Finite Mixture Models
-Version: 0.1.0
-Authors@R: c(person("Jinran", "Wu", email = "jinran.wu@uq.edu.au", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2388-3614")),person("Geoffrey J.", "McLachlan", email = "g.mclachlan@uq.edu.au", role = "aut", comment = c(ORCID = "0000-0002-5921-3145")))
-Maintainer: Jinran Wu <jinran.wu@uq.edu.au>
-Description: Implements a semi-supervised learning framework for finite mixture
-    models under a mixed-missingness mechanism. The approach models both
-    missing completely at random (MCAR) and entropy-based missing at random
-    (MAR) processes using a logistic–entropy formulation. Estimation is carried
-    out via an Expectation–-Conditional Maximisation (ECM) algorithm with robust
-    initialisation routines for stable convergence. The methodology relates to
-    the statistical perspective and informative missingness behaviour discussed
-    in Ahfock and McLachlan (2020) <doi:10.1007/s11222-020-09971-5> and
-    Ahfock and McLachlan (2023) <doi:10.1016/j.ecosta.2022.03.007>. The package
-    provides functions for data simulation, model estimation, prediction, and
-    theoretical Bayes error evaluation for analysing partially labelled data
-    under a mixed-missingness mechanism.
+Title: Semi-Supervised Learning with Mixed Missingness in Finite
+        Mixture Models
+Version: 0.2.0
+Depends: R (>= 3.6.0)
+Authors@R: c(
+    person("Geoffrey J.", "McLachlan", role = "aut",
+           email = "g.mclachlan@uq.edu.au",
+           comment = c(ORCID = "0000-0002-5921-3145")),
+    person("Jinran", "Wu", role = c("aut", "cre"),
+           email = "jinran.wu@uq.edu.au",
+           comment = c(ORCID = "0000-0002-2388-3614"))
+    )
+Description: Semi-supervised Gaussian finite mixture models for partially labelled data
+    under complete-case, missing completely at random (MCAR), entropy-dependent missing
+    at random (MAR), and mixed MCAR/MAR label-missingness formulations. For the mixed
+    formulation, the source of a missing label may be observed or latent. The package
+    supports equal and component-specific covariance matrices, model fitting, simulation,
+    initialization, prediction, classification performance assessment, and entropy-based
+    diagnostics. A semi-synthetic Blood Transfusion data set is included to illustrate the
+    applied workflow.
 License: GPL-3
 Encoding: UTF-8
-RoxygenNote: 7.3.3
-Depends: R (>= 4.2.0)
-Imports: stats, mvtnorm, matrixStats
+LazyData: true
+Imports: graphics, stats
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2025-12-04 00:22:06 UTC; uqjwu15
-Author: Jinran Wu [aut, cre] (ORCID: <https://orcid.org/0000-0002-2388-3614>),
-  Geoffrey J. McLachlan [aut] (ORCID:
-    <https://orcid.org/0000-0002-5921-3145>)
+Packaged: 2026-08-19 01:22:01 UTC; uqjwu15
+Author: Geoffrey J. McLachlan [aut] (ORCID:
+    <https://orcid.org/0000-0002-5921-3145>),
+  Jinran Wu [aut, cre] (ORCID: <https://orcid.org/0000-0002-2388-3614>)
+Maintainer: Jinran Wu <jinran.wu@uq.edu.au>
 Repository: CRAN
-Date/Publication: 2025-12-09 16:30:28 UTC
+Date/Publication: 2026-08-20 12:02:04 UTC
