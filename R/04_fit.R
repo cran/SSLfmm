@@ -12,16 +12,16 @@
 .normalize_source <- function(source, m) {
   n <- length(m)
   if (is.null(source)) {
-    stop("For mixed missingness with indicator = 'observed', supply 'missing_source'.", call. = FALSE)
+    stop("For mixed missingness with indicator = 'known', supply 'missing_source'.", call. = FALSE)
   }
   if (length(source) != n) stop("'missing_source' must have one entry per observation.", call. = FALSE)
 
-  # A logical or 0/1 vector is interpreted as an observed MCAR-source indicator:
+  # A logical or 0/1 vector is interpreted as a known MCAR-source indicator:
   # TRUE/1 = MCAR source; FALSE/0 = MAR source on rows whose labels are missing.
   if (is.logical(source) || (is.numeric(source) && all(is.na(source) | source %in% c(0, 1)))) {
     v <- as.logical(source)
     s <- rep("observed", n)
-    if (any(m & is.na(v))) stop("The observed source indicator cannot be NA on rows with missing labels.", call. = FALSE)
+    if (any(m & is.na(v))) stop("The known source indicator cannot be NA on rows with missing labels.", call. = FALSE)
     s[m & v] <- "mcar"
     s[m & !v] <- "mar"
     return(s)
@@ -134,7 +134,7 @@
 #'
 #' Fits semi-supervised Gaussian finite-mixture classifiers under complete-case, MCAR,
 #' entropy-dependent MAR, or mixed MCAR/MAR label-missingness formulations. For mixed
-#' models, the MCAR/MAR source may be observed or latent.
+#' models, the MCAR/MAR source may be known or unknown.
 #'
 #' @param x Numeric feature matrix or data.frame; feature values must be fully observed.
 #' @param y Class labels in 1:g (or factor/character), with NA for unlabelled observations.
@@ -143,8 +143,8 @@
 #' @param covariance_type "equal" for one covariance matrix shared by all components or
 #'   "unequal" for one covariance matrix per component.
 #' @param indicator For method="mixed", whether the MCAR/MAR source indicator is
-#'   "latent" or "observed".
-#' @param missing_source For method="mixed" and indicator="observed", a vector containing
+#'   "unknown" or "known".
+#' @param missing_source For method="mixed" and indicator="known", a vector containing
 #'   "mcar" or "mar" for rows with missing labels. Values on labelled rows are ignored.
 #' @param init Optional initialization returned by initialize_sslfmm() or a list with pi,
 #'   mu and sigma.
@@ -160,7 +160,7 @@
 fit_sslfmm <- function(x, y, g = NULL,
                         method = c("mixed", "mar", "mcar", "cc"),
                         covariance_type = c("equal", "unequal"),
-                        indicator = c("latent", "observed"),
+                        indicator = c("unknown", "known"),
                         missing_source = NULL,
                         init = NULL,
                         n_starts = 5L,
@@ -277,10 +277,10 @@ fit_sslfmm <- function(x, y, g = NULL,
       xi <- c(xi0 = best$par[dt + 1L], xi1 = exp(best$par[dt + 2L]))
       alpha <- NULL
       internal_par <- best$par
-    } else if (indicator == "observed") {
+    } else if (indicator == "known") {
       data$source <- .normalize_source(missing_source, data$m)
       alpha <- mean(data$source == "mcar")
-      if (alpha >= 1) stop("Observed mixed-source data cannot have every row assigned to the MCAR source.", call. = FALSE)
+      if (alpha >= 1) stop("Known mixed-source data cannot have every row assigned to the MCAR source.", call. = FALSE)
       eligible <- data$source != "mcar"
       response <- data$source == "mar"
       p0xi <- .initial_xi(data$x, mcar_fit$theta, covariance_type,
@@ -369,7 +369,7 @@ fit_sslfmm <- function(x, y, g = NULL,
     missing_probability <- mar_probability
   } else if (method == "mixed") {
     missing_probability <- alpha + (1 - alpha) * mar_probability
-    if (indicator == "observed") {
+    if (indicator == "known") {
       latent_missing <- data$source == "mcar"
       latent_missing_probability <- as.numeric(latent_missing)
     } else {

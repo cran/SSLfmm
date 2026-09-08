@@ -18,25 +18,25 @@ test_that("cc fit has predict method", {
   expect_equal(rowSums(pr), rep(1, 40), tolerance = 1e-7)
 })
 
-test_that("mixed observed source indicator is accepted", {
+test_that("mixed known source indicator is accepted", {
   mu <- matrix(c(-1, 1), 1, 2)
   s <- simulate_mixed_missingness(80, c(.5, .5), mu, matrix(1, 1, 1),
                                   alpha = .1, mar_rate = .2, seed = 5)
   x <- as.matrix(s$data["x1"])
   f <- fit_sslfmm(x, s$data$label, g = 2, method = "mixed",
-                  indicator = "observed", missing_source = s$data$missing_source,
+                  indicator = "known", missing_source = s$data$missing_source,
                   n_starts = 2, seed = 6)
   expect_s3_class(f, "SSLfmm")
-  expect_equal(f$indicator, "observed")
+  expect_equal(f$indicator, "known")
 })
 
-test_that("observed mixed source can be supplied as logical MCAR indicator", {
+test_that("known mixed source can be supplied as logical MCAR indicator", {
   mu <- matrix(c(-1, 1), 1, 2)
   s <- simulate_mixed_missingness(80, c(.5, .5), mu, matrix(1, 1, 1),
                                   alpha = .1, mar_rate = .2, seed = 12)
   x <- as.matrix(s$data["x1"])
   f <- fit_sslfmm(x, s$data$label, g = 2, method = "mixed",
-                  indicator = "observed", missing_source = s$data$latent_missing,
+                  indicator = "known", missing_source = s$data$latent_missing,
                   n_starts = 2, seed = 13)
   expect_s3_class(f, "SSLfmm")
   expect_true(all(f$latent_missing_probability %in% c(0, 1)))

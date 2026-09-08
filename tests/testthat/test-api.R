@@ -26,7 +26,7 @@ test_that("macro metrics retain a true class that is never predicted", {
 
 test_that("public API is intentionally small", {
   expected <- c("classification_performance", "fit_sslfmm", "initialize_sslfmm",
-                "plot_entropy_labels", "rmix", "simulate_mixed_missingness",
+                "rmix", "simulate_mixed_missingness",
                 "simulate_sslfmm")
   expect_setequal(getNamespaceExports("SSLfmm"), expected)
 })

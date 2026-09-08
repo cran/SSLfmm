@@ -1,6 +1,6 @@
 # SSLfmm
 
-`SSLfmm` is an R package for semi-supervised Gaussian finite mixture models with partially observed class labels. It supports complete-case, MCAR, entropy-dependent MAR, and mixed MCAR/MAR analyses. In the mixed formulation, the source of a missing label may be observed or latent. The package provides a common workflow for model fitting, simulation, prediction, classification performance assessment, and entropy-based diagnostics.
+`SSLfmm` is an R package for semi-supervised Gaussian finite mixture models with partially observed class labels. It supports complete-case, MCAR, entropy-dependent MAR, and mixed MCAR/MAR analyses. In the mixed formulation, the source of a missing label may be known or unknown. The package provides a common workflow for model fitting, simulation, prediction, classification performance assessment, and entropy-based diagnostics.
 
 ## User-facing API
 
@@ -11,7 +11,6 @@
 - `simulate_mixed_missingness()` — convenience wrapper for mixed missingness.
 - `predict()` — classes, posterior probabilities, entropy, or all three for an `SSLfmm` fit.
 - `classification_performance()` — classification metrics and confusion matrix.
-- `plot_entropy_labels()` — boxplot of entropy by a supplied grouping variable.
 
 Low-level likelihood, parameter-packing, Cholesky, and entropy helpers are internal and intentionally not exported.
 
@@ -60,10 +59,10 @@ and additionally includes directly useful `observed`, `mcar`, `mar`, and `missin
 
 For `fit_sslfmm(method = "mixed")`:
 
-- `indicator = "latent"`: only label missingness is observed; the MCAR/MAR source is latent and `alpha` is estimated jointly.
-- `indicator = "observed"`: supply the source of each missing label via `missing_source` (`"mcar"` / `"mar"`, or a logical/0-1 MCAR indicator).
+- `indicator = "unknown"`: the MCAR/MAR source of each missing label is unknown and `alpha` is estimated jointly.
+- `indicator = "known"`: supply the known source of each missing label via `missing_source` (`"mcar"` / `"mar"`, or a logical/0-1 MCAR indicator).
 
-A latent-source fit stores `latent_missing_probability`, the fitted posterior probability that a missing label came through the MCAR channel. It does not pretend that the latent source itself was observed.
+An unknown-source fit stores `latent_missing_probability`, the fitted posterior probability that a missing label came through the MCAR channel.
 
 ## Minimal example
 
@@ -83,7 +82,7 @@ fit <- fit_sslfmm(
   g = 2,
   method = "mixed",
   covariance_type = "equal",
-  indicator = "latent",
+  indicator = "unknown",
   n_starts = 5,
   seed = 2
 )
@@ -94,13 +93,12 @@ classification_performance(
   predict(fit, x),
   predict(fit, x, type = "posterior")
 )
-plot_entropy_labels(fit)
 ```
 
 
 ## Included case-study data
 
-Version 0.2.0 includes the semi-synthetic `blood_transfusion`
+Version 0.2.1 includes the semi-synthetic `blood_transfusion`
 data set used in the software-paper application. It can be loaded directly
 from the package:
 
@@ -120,7 +118,7 @@ observed response is stored in `observed`.
 Install a built source tarball with:
 
 ```r
-install.packages("SSLfmm_0.2.0.tar.gz", repos = NULL, type = "source")
+install.packages("SSLfmm_0.2.1.tar.gz", repos = NULL, type = "source")
 ```
 
 Or install an unpacked source directory from a shell with:
@@ -133,6 +131,6 @@ For formal validation:
 
 ```sh
 R CMD build SSLfmm
-R CMD check SSLfmm_0.2.0.tar.gz --as-cran
+R CMD check SSLfmm_0.2.1.tar.gz --as-cran
 ```
 

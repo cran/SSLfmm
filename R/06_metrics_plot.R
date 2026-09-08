@@ -67,70 +67,11 @@ classification_performance <- function(truth, predicted, posterior = NULL) {
     post <- post / rs
     ptrue <- post[cbind(seq_along(idx), idx)]
     log_loss <- -mean(log(pmax(ptrue, 1e-15)))
-    onehot <- matrix(0, nrow(post), ncol(post))
-    onehot[cbind(seq_along(idx), idx)] <- 1
-    brier <- mean(rowSums((post - onehot)^2))
-    metrics <- c(metrics, log_loss = log_loss, brier_score = brier)
+    metrics <- c(metrics, log_loss = log_loss)
   }
 
   per_class <- data.frame(class = lev, support = as.integer(support),
                           precision = as.numeric(precision), recall = as.numeric(recall),
                           f1 = as.numeric(f1), row.names = NULL)
   list(metrics = metrics, per_class = per_class, confusion_matrix = cm)
-}
-
-.entropy_groups <- function(entropy) {
-  n <- length(entropy)
-  ord <- order(entropy, na.last = NA)
-  grp <- rep(NA_character_, n)
-  if (!length(ord)) return(factor(grp, levels = c("Low", "Medium", "High")))
-  rank_index <- seq_along(ord)
-  cut1 <- ceiling(length(ord) / 3)
-  cut2 <- ceiling(2 * length(ord) / 3)
-  lab <- ifelse(rank_index <= cut1, "Low", ifelse(rank_index <= cut2, "Medium", "High"))
-  grp[ord] <- lab
-  factor(grp, levels = c("Low", "Medium", "High"))
-}
-
-#' Boxplot of posterior entropy by class label
-#'
-#' Displays the distribution of posterior entropy separately for each class label. If an
-#' SSLfmm fit is supplied, fitted entropy and predicted classes are used by default.
-#'
-#' @param entropy Numeric entropy vector or an SSLfmm object.
-#' @param labels Optional class labels. With an SSLfmm object, predicted classes are used when omitted.
-#' @param main Plot title.
-#' @param xlab X-axis label.
-#' @param ylab Y-axis label.
-#' @param legend Retained for backward compatibility; boxplots do not require a legend.
-#' @param ... Additional arguments passed to graphics::boxplot().
-#' @return Invisibly, a list containing entropy_group, counts, proportions, and the boxplot summary.
-#' @export
-plot_entropy_labels <- function(entropy, labels = NULL,
-                                main = "Posterior entropy by class label",
-                                xlab = "Class label", ylab = "Posterior entropy",
-                                legend = TRUE, ...) {
-  if (inherits(entropy, "SSLfmm")) {
-    object <- entropy
-    entropy <- object$entropy
-    if (is.null(labels)) {
-      idx <- max.col(object$posterior, ties.method = "first")
-      labels <- object$label_levels[idx]
-    }
-  }
-  entropy <- as.numeric(entropy)
-  if (is.null(labels)) stop("'labels' is required when 'entropy' is a numeric vector.", call. = FALSE)
-  if (length(labels) != length(entropy)) stop("'labels' and 'entropy' must have the same length.", call. = FALSE)
-  ok <- is.finite(entropy) & !is.na(labels)
-  if (!any(ok)) stop("No finite entropy values with non-missing labels are available.", call. = FALSE)
-
-  labs <- factor(as.character(labels))
-  grp <- .entropy_groups(entropy)
-  counts <- table(labs[ok], grp[ok])
-  proportions <- sweep(counts, 2L, pmax(colSums(counts), 1), "/")
-
-  bp <- graphics::boxplot(entropy[ok] ~ droplevels(labs[ok]),
-                          main = main, xlab = xlab, ylab = ylab, ...)
-  invisible(list(entropy_group = grp, counts = counts, proportions = proportions,
-                 boxplot = bp))
 }

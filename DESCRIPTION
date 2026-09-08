@@ -2,7 +2,7 @@ Package: SSLfmm
 Type: Package
 Title: Semi-Supervised Learning with Mixed Missingness in Finite
         Mixture Models
-Version: 0.2.0
+Version: 0.2.1
 Depends: R (>= 3.6.0)
 Authors@R: c(
     person("Geoffrey J.", "McLachlan", role = "aut",
@@ -34,4 +34,4 @@ Author: Geoffrey J. McLachlan [aut] (ORCID:
   Jinran Wu [aut, cre] (ORCID: <https://orcid.org/0000-0002-2388-3614>)
 Maintainer: Jinran Wu <jinran.wu@uq.edu.au>
 Repository: CRAN
-Date/Publication: 2026-08-20 12:02:04 UTC
+Date/Publication: 2026-09-08 03:40:02 UTC

@@ -15,7 +15,7 @@ Computes overall and per-class classification performance after removing observa
 \value{
 A list with:
 \itemize{
-\item \code{metrics}: named numeric vector containing accuracy, error rate, balanced accuracy, macro precision, macro recall, and macro F1; when \code{posterior} is supplied, log loss and multiclass Brier score are added;
+\item \code{metrics}: named numeric vector containing accuracy, error rate, balanced accuracy, macro precision, macro recall, and macro F1; when \code{posterior} is supplied, log loss is added;
 \item \code{per_class}: data.frame with class support, precision, recall, and F1;
 \item \code{confusion_matrix}: truth-by-predicted contingency table.
 }

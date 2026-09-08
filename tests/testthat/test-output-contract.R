@@ -140,18 +140,6 @@ test_that("internal research helpers are not user API", {
   expect_false(".pack_theta" %in% getNamespaceExports("SSLfmm"))
 })
 
-test_that("package version remains pinned to 0.2.0", {
-  expect_identical(as.character(utils::packageVersion("SSLfmm")), "0.2.0")
-})
-
-test_that("entropy-label visualization is a boxplot", {
-  f <- tempfile(fileext = ".pdf")
-  grDevices::pdf(f)
-  on.exit(grDevices::dev.off(), add = TRUE)
-  out <- plot_entropy_labels(
-    c(0.05, 0.10, 0.20, 0.40, 0.55, 0.65),
-    c(1, 1, 2, 1, 2, 2)
-  )
-  expect_true(is.list(out$boxplot))
-  expect_true(all(c("stats", "n", "conf", "out", "group", "names") %in% names(out$boxplot)))
+test_that("package version remains pinned to 0.2.1", {
+  expect_identical(as.character(utils::packageVersion("SSLfmm")), "0.2.1")
 })
