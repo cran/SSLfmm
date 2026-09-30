@@ -2,7 +2,11 @@ Package: SSLfmm
 Type: Package
 Title: Semi-Supervised Learning with Mixed Missingness in Finite
         Mixture Models
-Version: 0.2.1
+Version: 0.2.2
+Author: Geoffrey J. McLachlan [aut] (ORCID:
+    <https://orcid.org/0000-0002-5921-3145>),
+  Jinran Wu [aut, cre] (ORCID: <https://orcid.org/0000-0002-2388-3614>)
+Maintainer: Jinran Wu <jinran.wu@uq.edu.au>
 Depends: R (>= 3.6.0)
 Authors@R: c(
     person("Geoffrey J.", "McLachlan", role = "aut",
@@ -21,17 +25,16 @@ Description: Semi-supervised Gaussian finite mixture models for partially labell
     diagnostics. A semi-synthetic Blood Transfusion data set is included to illustrate the
     applied workflow.
 License: GPL-3
+URL: https://github.com/wujrtudou/SSLfmm
+BugReports: https://github.com/wujrtudou/SSLfmm/issues
+VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 Imports: graphics, stats
-Suggests: testthat (>= 3.0.0)
+Suggests: testthat (>= 3.0.0), knitr, rmarkdown
 Config/testthat/edition: 3
 Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2026-08-19 01:22:01 UTC; uqjwu15
-Author: Geoffrey J. McLachlan [aut] (ORCID:
-    <https://orcid.org/0000-0002-5921-3145>),
-  Jinran Wu [aut, cre] (ORCID: <https://orcid.org/0000-0002-2388-3614>)
-Maintainer: Jinran Wu <jinran.wu@uq.edu.au>
+Packaged: 2026-09-30 02:17:32 UTC; uqjwu15
 Repository: CRAN
-Date/Publication: 2026-09-08 03:40:02 UTC
+Date/Publication: 2026-09-30 16:00:10 UTC

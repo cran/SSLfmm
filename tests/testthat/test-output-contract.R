@@ -140,6 +140,6 @@ test_that("internal research helpers are not user API", {
   expect_false(".pack_theta" %in% getNamespaceExports("SSLfmm"))
 })
 
-test_that("package version remains pinned to 0.2.1", {
-  expect_identical(as.character(utils::packageVersion("SSLfmm")), "0.2.1")
+test_that("package version remains pinned to 0.2.2", {
+  expect_identical(as.character(utils::packageVersion("SSLfmm")), "0.2.2")
 })

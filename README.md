@@ -98,7 +98,7 @@ classification_performance(
 
 ## Included case-study data
 
-Version 0.2.1 includes the semi-synthetic `blood_transfusion`
+Version 0.2.2 includes the semi-synthetic `blood_transfusion`
 data set used in the software-paper application. It can be loaded directly
 from the package:
 
@@ -113,12 +113,21 @@ table(blood_transfusion$missing_indicator)
 The complete reference labels are retained for evaluation only; the partially
 observed response is stored in `observed`.
 
+## Development repository and issue tracker
+
+Development is version controlled in the public GitHub repository:
+
+- https://github.com/wujrtudou/SSLfmm
+- Issues: https://github.com/wujrtudou/SSLfmm/issues
+
+The CRAN release remains the recommended installation source for most users.
+
 ## Installation and checking
 
 Install a built source tarball with:
 
 ```r
-install.packages("SSLfmm_0.2.1.tar.gz", repos = NULL, type = "source")
+install.packages("SSLfmm_0.2.2.tar.gz", repos = NULL, type = "source")
 ```
 
 Or install an unpacked source directory from a shell with:
@@ -131,6 +140,6 @@ For formal validation:
 
 ```sh
 R CMD build SSLfmm
-R CMD check SSLfmm_0.2.1.tar.gz --as-cran
+R CMD check SSLfmm_0.2.2.tar.gz --as-cran
 ```
 
